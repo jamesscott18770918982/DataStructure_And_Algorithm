@@ -1,0 +1,57 @@
+/**
+ * @author xt
+ * @date 2019年6月26日 下午3:26:52
+归并排序
+ */
+public class MergeSort {
+
+	public static void mergeSort(int []a,int n){
+		mergeSortInterlly(a,0,n-1);
+	}
+
+	//调用递归函数
+	private static void mergeSortInterlly(int[] a, int p, int r) {
+		//递归终止条件
+		if(p>=r) return;
+		
+		//q为p到r之间的平均数
+		int q = p +((r-p)>>2);
+		
+		//分治递归
+		mergeSortInterlly(a, p, q);
+		mergeSortInterlly(a, q+1, r);
+		
+		//将a[p....q]和a[q+1...r]合并为a[p...r]
+		merge(a,p,q,r);
+	}
+
+	private static void merge(int[] a, int p, int q, int r) {
+		int i = p;
+		int j = q+1;
+		int k = 0;
+		int []tmp =new int[r-p+1];
+		while(i<=q&&j<=r){
+			if(a[i]<=a[j]){
+				tmp[k++]=a[i++];
+			}else{
+				tmp[k++]=a[j++];
+			}
+		}
+		
+		//判断哪个子数组中有剩余多余的数据
+		int start = i;
+		int end = q;
+		if(j<=r){
+			start = j;
+			end = r;
+		}
+		while(start<=end){
+			tmp[k++]=a[start++];
+		}
+		
+		//将tmp数组拷贝回a[p...r]数组
+		for(int d=0;d<=r-p;++d){
+			a[p+d]=tmp[d];
+		}
+	}
+}
